@@ -1,9 +1,9 @@
 import { createContext, useContext, useState } from 'react';
 
-type Context<T> = undefined[] | [T | undefined, (arg: T | undefined) => void];
+type Context<T> = [T | undefined, (arg: T | undefined) => void];
 
 export const createProvider = <T,>() => {
-  const context = [undefined, undefined];
+  const context: [undefined, () => void] = [undefined, () => {}];
 
   const Context = createContext<Context<T>>(context);
 
