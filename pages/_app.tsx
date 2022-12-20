@@ -3,33 +3,23 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import '../styles/globals.css';
-import config from '../config/dev.json';
 
 import type { AppProps } from 'next/app';
 import { createClient } from '@supabase/supabase-js';
+import { ThemeProvider } from '@mui/material/styles';
+
+import config from '@root/config/dev.js';
 
 import { AppBar } from '@pdg/components/AppBar/AppBar';
 import { SupabaseProvider } from '@pdg/providers/SupabaseProvider';
 import { SessionProvider } from '@pdg/providers/SessionProvider';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { darkTheme } from '@pdg/utils/theme';
 
-const supabase = createClient((config as any).supabase.host, (config as any).supabase.anon);
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#654bb6',
-    },
-    secondary: {
-      main: '#b1cf55',
-    },
-  },
-});
+const supabase = createClient(config.supabase.host, (config as any).supabase.anon);
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={darkTheme}>
       <SessionProvider>
         <SupabaseProvider initialState={supabase}>
           <AppBar />

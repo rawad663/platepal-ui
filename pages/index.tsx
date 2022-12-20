@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import { ProductDescriptionPage } from '@pdg/components/pageComponents/ProductDescriptionPage';
+import { GeneratePage } from '@pdg/components/pageComponents/GeneratePage';
 
-export default function Home() {
+export default function Generate() {
   return (
     <>
       <Head>
@@ -11,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ProductDescriptionPage />
+      <GeneratePage />
     </>
   );
 }

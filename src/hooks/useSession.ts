@@ -14,8 +14,6 @@ export const useSession = () => {
         data: { session },
       } = await auth.getSession();
 
-      console.log(session);
-
       setSession(session ?? undefined);
     })();
   }, [session, auth, setSession]);
@@ -32,6 +30,7 @@ export const useSession = () => {
   };
 
   return {
+    user: session?.user,
     session,
     signOut,
     signInWithOAuth,
