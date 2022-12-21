@@ -20,7 +20,7 @@ export const GeneratePage = () => {
     const body = Object.entries(inputs).reduce(
       (acc, [key, value]) => ({
         ...acc,
-        [key]: value.value || value.values,
+        [key]: value.value?.trim() || value.values,
       }),
       {},
     ) as ProductInfoInput;

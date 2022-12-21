@@ -11,8 +11,10 @@ export const usePdgApi = () => {
     () =>
       axios.create({
         baseURL: `${pdgServer.host}/api`,
-        timeout: 10000,
-        headers: session?.access_token ? { Authorization: session?.access_token } : {},
+        timeout: 30000,
+        headers: {
+          Authorization: session?.access_token ? `Bearer ${session?.access_token}` : undefined,
+        },
       }),
     [session?.access_token],
   );

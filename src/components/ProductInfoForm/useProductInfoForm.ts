@@ -50,9 +50,13 @@ export const useProductInfoForm = () => {
       values: values.features,
       onChange: ({ currentTarget }) => setCurrentFeature(currentTarget.value),
       onKeyDown: ({ key, currentTarget }) => {
-        if (key === 'Enter' || key === ' ') {
-          setValue('features', [...values.features, currentTarget.value.trim()]);
+        const trimmed = currentTarget.value.trim();
+        if (key === 'Enter' || (key === ' ' && trimmed)) {
+          setValue('features', [...values.features, trimmed]);
           setCurrentFeature('');
+        }
+        if (key === 'Backspace' && !currentTarget.value && values.features.length > 0) {
+          setValue('features', values.features.splice(0, values.features.length - 1));
         }
       },
       onDelete: (value) => {

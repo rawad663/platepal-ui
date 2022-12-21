@@ -15,6 +15,9 @@ export const ProductDescription = ({ productDescription, isLoading }: Props) => 
 
       {!isLoading ? (
         <TextField
+          InputProps={{
+            sx: { color: 'common.white' },
+          }}
           variant="filled"
           value={productDescription?.content ?? ''}
           disabled={!productDescription}
@@ -22,7 +25,7 @@ export const ProductDescription = ({ productDescription, isLoading }: Props) => 
           label="Product name"
           color="secondary"
           multiline
-          rows={14}
+          rows={18}
           placeholder="ex: Funky Monkey"
         />
       ) : (
