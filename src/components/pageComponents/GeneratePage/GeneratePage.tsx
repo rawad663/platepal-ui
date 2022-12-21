@@ -14,38 +14,45 @@ export const GeneratePage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const instance = usePdgApi();
-  const { inputs } = useProductInfoForm();
+  const { inputs, control, states, validate, formState } = useProductInfoForm();
 
-  const onSubmit = async () => {
-    const body = Object.entries(inputs).reduce(
-      (acc, [key, value]) => ({
-        ...acc,
-        [key]: value.value?.trim() || value.values,
-      }),
-      {},
-    ) as ProductInfoInput;
+  const onSubmit = validate(async ({ name, description, audience, guarantee }) => {
+    if (Object.keys(formState.errors).length > 0) return;
 
-    if (!body.name || !body.description || !body.features) {
-      throw new Error('invalid body fields');
-    }
+    const body: ProductInfoInput = {
+      name,
+      description,
+      features: states.features,
+      audience,
+      guarantee,
+      tone: states.activeTone,
+    };
 
     setIsLoading(true);
-    const { data } = await instance.post<IProductDescription>('/descriptions/create', body);
 
-    setDescription(data);
-    setIsLoading(false);
-  };
+    try {
+      const { data } = await instance.post<IProductDescription>('/descriptions/create', body);
+      setDescription(data);
+    } catch (err) {
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  });
 
   return (
     <ThemeProvider theme={lightTheme}>
       <Box mt={8} flex={1} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Card raised sx={styles.card}>
-          <Typography mb={4} variant="h3" textAlign="center">
-            Describe your product
-          </Typography>
+        <Typography mb={4} variant="h3" textAlign="center">
+          Create Beautiful Product Descriptions
+        </Typography>
 
+        <Card raised sx={styles.card}>
           <Box sx={styles.context}>
-            <ProductInfoForm sx={{ width: '50%' }} {...{ onSubmit, inputs }} />
+            <ProductInfoForm
+              sx={{ width: '50%', pr: 8, boxSizing: 'border-box' }}
+              {...{ onSubmit, inputs, control, formState, validate }}
+            />
             <ProductDescription {...{ productDescription, isLoading }} />
           </Box>
         </Card>

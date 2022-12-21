@@ -1,10 +1,12 @@
+export type Tone = 'formal' | 'informal' | 'curious' | 'friendly';
+
 export type ProductInfoInput = {
   name: string;
   description: string;
-  features: string[];
+  features?: string[];
   audience?: string;
   guarantee?: string;
-  userNeed?: string;
+  tone?: Tone;
 };
 
 export type IProductInfo = ProductInfoInput & {
@@ -14,9 +16,7 @@ export type IProductInfo = ProductInfoInput & {
 
 // "Raw" is a term used for the database version
 // where snake case is used instead of camel case
-export type IProductInfoRaw = Omit<IProductDescription, 'userNeed'> & {
-  user_need: number;
-};
+export type IProductInfoRaw = IProductDescription;
 
 export type ProductDescriptionInput = {
   user_id?: string;

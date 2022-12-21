@@ -1,99 +1,84 @@
-import { ProductInfoInput } from '@pdg/types/product-descriptions';
-import { ChangeEventHandler, KeyboardEventHandler, useState } from 'react';
+import { validationErrors } from '@pdg/declarations/fieldValidation';
+import { ProductInfoInput, Tone } from '@pdg/types/product-descriptions';
+import { KeyboardEventHandler, useState } from 'react';
+import { useForm, ValidationRule } from 'react-hook-form';
 
 export type ProductInput = {
   name: string;
-  value?: string;
-  values?: string[];
+  state?: any;
   label: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
-  onDelete?: (value: string) => void;
+  onDelete?: (i: number) => void;
   placeholder?: string;
   multiline?: boolean;
   hint?: string;
+  rules?: ValidationRule<any>;
 };
 
 export const useProductInfoForm = () => {
-  const [values, setValues] = useState<ProductInfoInput>({
-    name: '',
-    description: '',
-    features: [],
-    audience: '',
-    guarantee: '',
-    userNeed: '',
-  });
-  const [currentFeature, setCurrentFeature] = useState<string>('');
+  const { control, handleSubmit, setValue, formState } = useForm({ mode: 'all' });
 
-  const setValue = (field: keyof ProductInfoInput, newValue: any) => setValues({ ...values, [field]: newValue });
-
-  // const validate = (field, isValid) => {};
+  const [features, setFeatures] = useState<string[]>([]);
+  const [activeTone, setActiveTone] = useState<Tone | undefined>();
 
   const inputs: Record<keyof ProductInfoInput, ProductInput> = {
     name: {
       name: 'name',
-      value: values.name,
-      onChange: ({ currentTarget }) => setValue('name', currentTarget.value),
+      rules: { required: { value: true, message: validationErrors.required } },
       label: 'Product name',
       placeholder: 'ex: Funky Monkey',
     },
     description: {
       name: 'description',
-      value: values.description,
-      onChange: ({ currentTarget }) => setValue('description', currentTarget.value),
+      rules: { required: { value: true, message: validationErrors.required } },
       label: 'Product description',
       multiline: true,
     },
     features: {
       name: 'features',
-      value: currentFeature,
-      values: values.features,
-      onChange: ({ currentTarget }) => setCurrentFeature(currentTarget.value),
+      state: features,
+      label: 'Features',
+      placeholder: 'ex: Cute, colorful, entertaining',
+      hint: 'Press Enter or Space',
       onKeyDown: ({ key, currentTarget }) => {
         const trimmed = currentTarget.value.trim();
         if (key === 'Enter' || (key === ' ' && trimmed)) {
-          setValue('features', [...values.features, trimmed]);
-          setCurrentFeature('');
+          setFeatures([...features, trimmed]);
+          setValue('features', ''); // updates the field's (called "features") input value
         }
-        if (key === 'Backspace' && !currentTarget.value && values.features.length > 0) {
-          setValue('features', values.features.splice(0, values.features.length - 1));
+        if (key === 'Backspace' && !currentTarget.value && features.length > 0) {
+          setFeatures(features.splice(0, features.length - 1));
         }
       },
-      onDelete: (value) => {
-        setValue(
-          'features',
-          values.features.filter((feature) => value !== feature),
-        );
+      onDelete: (index: number) => {
+        setFeatures(features.filter((_, i) => i !== index));
       },
-      label: 'Features',
-      placeholder: 'ex: Funky Monkey',
     },
     audience: {
       name: 'audience',
-      value: values.audience,
-      onChange: ({ currentTarget }) => setValue('audience', currentTarget.value),
       label: 'Audience',
       hint: 'ex: Babies, Business person, Graphic designer',
     },
     guarantee: {
       name: 'guarantee',
-      value: values.guarantee,
-      onChange: ({ currentTarget }) => setValue('guarantee', currentTarget.value),
       label: 'Guarantee',
       hint: 'ex: 30 day guarantee, 50% off',
     },
-    userNeed: {
-      name: 'userNeed',
-      value: values.userNeed,
-      onChange: ({ currentTarget }) => setValue('userNeed', currentTarget.value),
-      label: 'User need',
+    tone: {
+      name: 'tone',
+      label: 'Tone of voice',
+      state: [activeTone, setActiveTone],
     },
   };
 
   return {
-    values,
     inputs,
-    errors: [],
-    setValue,
+    states: {
+      features,
+      activeTone,
+    },
+    formState,
+    control,
+    validate: handleSubmit,
   };
 };
