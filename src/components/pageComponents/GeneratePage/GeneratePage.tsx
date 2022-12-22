@@ -26,6 +26,7 @@ export const GeneratePage = () => {
       audience,
       guarantee,
       tone: states.activeTone,
+      wordRange: states.activeRange,
     };
 
     setIsLoading(true);
@@ -49,7 +50,10 @@ export const GeneratePage = () => {
 
         <Card raised sx={styles.card}>
           <Box sx={styles.context}>
-            <ProductInfoForm sx={styles.productInfoForm} {...{ onSubmit, inputs, control, formState, validate }} />
+            <ProductInfoForm
+              sx={styles.productInfoForm}
+              {...{ onSubmit, inputs, control, formState, validate, isLoading }}
+            />
             <ProductDescription {...{ productDescription, isLoading }} />
           </Box>
         </Card>

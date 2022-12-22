@@ -1,4 +1,6 @@
 export type Tone = 'formal' | 'informal' | 'curious' | 'friendly';
+export type PlatformType = 'socialMedia' | 'ecomm' | 'other';
+export type WordRange = [number, number]; // [min, max]
 
 export type ProductInfoInput = {
   name: string;
@@ -7,6 +9,7 @@ export type ProductInfoInput = {
   audience?: string;
   guarantee?: string;
   tone?: Tone;
+  wordRange?: WordRange;
 };
 
 export type IProductInfo = ProductInfoInput & {

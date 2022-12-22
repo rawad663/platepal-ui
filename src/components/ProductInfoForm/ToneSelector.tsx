@@ -10,9 +10,9 @@ export const ToneSelector = ({ activeTone, setActiveTone }: Props) => {
   const tones: Tone[] = ['formal', 'curious', 'friendly'];
 
   return (
-    <Box mb={1}>
-      <Typography variant="body2" color="text.secondary">
-        Select the tone of voice for the description
+    <Box mb={2}>
+      <Typography sx={{ mb: 1 }} variant="body2" color="text.secondary">
+        Choose your tone of voice
       </Typography>
 
       <ToggleButtonGroup
@@ -23,7 +23,7 @@ export const ToneSelector = ({ activeTone, setActiveTone }: Props) => {
         aria-label="product description voice tone"
       >
         {tones.map((tone) => (
-          <ToggleButton size="medium" sx={{ px: 3 }} key={tone} value={tone} aria-label="left aligned">
+          <ToggleButton size="small" sx={{ px: 3 }} key={tone} value={tone} aria-label="left aligned">
             {tone.charAt(0).toUpperCase() + tone.slice(1)}
           </ToggleButton>
         ))}

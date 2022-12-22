@@ -12,9 +12,10 @@ import {
   Typography,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { ProductInfoInput, Tone } from '@pdg/types/product-descriptions';
+import { ProductInfoInput, Tone, WordRange } from '@pdg/types/product-descriptions';
 import { useState } from 'react';
 import { Control, Controller, FormState } from 'react-hook-form';
+import { RangeSelector } from './RangeSelector';
 
 import { styles } from './ProductInfoForm.styles';
 import { ToneSelector } from './ToneSelector';
@@ -33,11 +34,12 @@ type Props = {
   inputs: Record<keyof ProductInfoInput, ProductInput>;
   formState: FormState<FormFields>;
   control: Control<FormFields>;
+  isLoading: boolean;
   onSubmit: () => Promise<void>;
   validate: (f: () => void) => () => void;
 };
 
-export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, validate }: Props) => {
+export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, validate, isLoading }: Props) => {
   const [activeStep, setActiveStep] = useState<number>(0);
 
   const steps: Step[] = [
@@ -55,7 +57,7 @@ export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, vali
     },
     {
       name: 'additionalInfo',
-      inputs: [inputs.tone, inputs.features, inputs.audience, inputs.guarantee],
+      inputs: [inputs.tone, inputs.wordRange, inputs.features, inputs.audience /*inputs.guarantee*/],
       description: 'Additional information (Recommended)',
       hint: 'Fill in as many of these fields to create a more relevant description.',
     },
@@ -92,56 +94,61 @@ export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, vali
               name={input.name}
               control={control}
               rules={rules}
-              render={({ field, fieldState: { error } }) =>
-                input.name === 'tone' ? (
-                  <ToneSelector activeTone={state[0] as Tone} setActiveTone={state[1]} />
-                ) : (
-                  <TextField
-                    sx={{ mb: 1 }}
-                    variant="filled"
-                    fullWidth
-                    {...input}
-                    rows={3}
-                    required={!!rules?.required}
-                    error={!!error}
-                    color="secondary"
-                    helperText={error?.message ?? inputHint}
-                    inputProps={{
-                      ...field,
-                    }}
-                    InputProps={{
-                      sx: { color: 'common.white' },
-                      onKeyDown: onKeyDown,
-                      startAdornment:
-                        input.name === 'features'
-                          ? (state as string[]).map((val, i) => (
-                              <InputAdornment key={i} position="start">
-                                <Chip
-                                  size="small"
-                                  color="secondary"
-                                  variant="filled"
-                                  label={val}
-                                  onDelete={() => onDelete && onDelete(i)}
-                                />
-                              </InputAdornment>
-                            ))
-                          : null,
-                    }}
-                  />
-                )
-              }
+              render={({ field, fieldState: { error } }) => (
+                <>
+                  {input.name === 'tone' && <ToneSelector activeTone={state[0] as Tone} setActiveTone={state[1]} />}
+                  {input.name === 'wordRange' && (
+                    <RangeSelector activeRange={state[0] as WordRange} setActiveRange={state[1]} />
+                  )}
+                  {input.name !== 'tone' && input.name !== 'wordRange' && (
+                    <TextField
+                      sx={{ mb: 1 }}
+                      variant="filled"
+                      fullWidth
+                      {...input}
+                      rows={3}
+                      required={!!rules?.required}
+                      error={!!error}
+                      color="secondary"
+                      helperText={error?.message ?? inputHint}
+                      inputProps={{
+                        ...field,
+                      }}
+                      InputProps={{
+                        sx: { color: 'common.white' },
+                        onKeyDown: onKeyDown,
+                        startAdornment:
+                          input.name === 'features'
+                            ? (state as string[]).map((val, i) => (
+                                <InputAdornment key={i} position="start">
+                                  <Chip
+                                    size="small"
+                                    color="secondary"
+                                    variant="filled"
+                                    label={val}
+                                    onDelete={() => onDelete && onDelete(i)}
+                                  />
+                                </InputAdornment>
+                              ))
+                            : null,
+                      }}
+                    />
+                  )}
+                </>
+              )}
             />
           ))}
 
           <Box sx={{ mb: 2 }}>
             <div>
               <Button
-                disabled={!!formState.errors[steps[activeStep].name as keyof FormFields]}
+                disabled={!!formState.errors[steps[activeStep].name as keyof FormFields] || isLoading}
                 variant="contained"
                 onClick={() => handleNext()}
+                color={activeStep === steps.length - 1 ? 'secondary' : 'primary'}
                 sx={{ mt: 1, mr: 1 }}
               >
-                {index === steps.length - 1 ? 'Finish' : 'Continue'}
+                {index === steps.length - 1 ? 'Generate' : 'Continue'}
               </Button>
               <Button disabled={index === 0} onClick={handleBack} sx={{ mt: 1, mr: 1, color: grey[900] }}>
                 Back

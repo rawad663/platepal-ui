@@ -1,5 +1,5 @@
 import { validationErrors } from '@pdg/declarations/fieldValidation';
-import { ProductInfoInput, Tone } from '@pdg/types/product-descriptions';
+import { ProductInfoInput, Tone, WordRange } from '@pdg/types/product-descriptions';
 import { KeyboardEventHandler, useState } from 'react';
 import { useForm, ValidationRule } from 'react-hook-form';
 
@@ -22,6 +22,7 @@ export type FormFields = {
   guarantee: string;
   audience: string;
   tone: string;
+  wordRange: string;
 };
 
 export const useProductInfoForm = () => {
@@ -32,11 +33,13 @@ export const useProductInfoForm = () => {
     guarantee: '',
     audience: '',
     tone: '',
+    wordRange: '',
   };
   const { control, handleSubmit, setValue, formState } = useForm<FormFields>({ mode: 'all', defaultValues });
 
   const [features, setFeatures] = useState<string[]>([]);
   const [activeTone, setActiveTone] = useState<Tone | undefined>();
+  const [activeRange, setActiveRange] = useState<WordRange>([250, 300]);
 
   const inputs: Record<keyof ProductInfoInput, ProductInput> = {
     name: {
@@ -50,6 +53,11 @@ export const useProductInfoForm = () => {
       rules: { required: { value: true, message: validationErrors.required } },
       label: 'Product description',
       multiline: true,
+    },
+    wordRange: {
+      name: 'wordRange',
+      state: [activeRange, setActiveRange],
+      label: 'Word range',
     },
     features: {
       name: 'features',
@@ -74,12 +82,12 @@ export const useProductInfoForm = () => {
     audience: {
       name: 'audience',
       label: 'Audience',
-      hint: 'ex: Babies, Business person, Graphic designer',
+      placeholder: 'ex: Babies, Business person, Graphic designer',
     },
     guarantee: {
       name: 'guarantee',
       label: 'Guarantee',
-      hint: 'ex: 30 day guarantee, 50% off',
+      placeholder: 'ex: 30 day guarantee, 50% off',
     },
     tone: {
       name: 'tone',
@@ -93,6 +101,7 @@ export const useProductInfoForm = () => {
     states: {
       features,
       activeTone,
+      activeRange,
     },
     formState,
     control,

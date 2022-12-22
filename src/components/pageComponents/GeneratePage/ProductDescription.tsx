@@ -21,7 +21,7 @@ export const ProductDescription = ({ productDescription, isLoading }: Props) => 
   return (
     <Box flex={1} py={2}>
       <Typography variant="h4" mb={2}>
-        Result
+        Output
       </Typography>
 
       <Box sx={{ position: 'relative' }}>
@@ -41,7 +41,7 @@ export const ProductDescription = ({ productDescription, isLoading }: Props) => 
               value={productDescription?.content ?? ''}
               disabled={!productDescription || isLoading || !!error}
               fullWidth
-              label="Product name"
+              label="Your product description"
               color="secondary"
               multiline
               rows={20}
