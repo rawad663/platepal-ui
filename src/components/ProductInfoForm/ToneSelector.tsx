@@ -23,7 +23,7 @@ export const ToneSelector = ({ activeTone, setActiveTone }: Props) => {
         aria-label="product description voice tone"
       >
         {tones.map((tone) => (
-          <ToggleButton sx={{ px: 4 }} key={tone} value={tone} aria-label="left aligned">
+          <ToggleButton size="medium" sx={{ px: 3 }} key={tone} value={tone} aria-label="left aligned">
             {tone.charAt(0).toUpperCase() + tone.slice(1)}
           </ToggleButton>
         ))}

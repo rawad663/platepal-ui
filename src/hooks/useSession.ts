@@ -1,5 +1,6 @@
 import { useSessionContext } from '@pdg/providers/SessionProvider';
 import { useEffect } from 'react';
+
 import { useSupabase } from './useSupabase';
 
 export const useSession = () => {
@@ -7,14 +8,20 @@ export const useSession = () => {
   const { auth } = useSupabase();
 
   useEffect(() => {
-    if (session) return;
-
     (async () => {
-      const {
-        data: { session },
-      } = await auth.getSession();
+      if (!session) {
+        const { data } = await auth.getSession();
+        return setSession(data.session ?? undefined);
+      }
 
-      setSession(session ?? undefined);
+      const now = new Date();
+      const sessionExpiry = session.expires_at ? new Date(session.expires_at * 1000) : null;
+
+      // Access token expired
+      if (sessionExpiry && now > sessionExpiry) {
+        const { data } = await auth.refreshSession();
+        setSession(data.session ?? undefined);
+      }
     })();
   }, [session, auth, setSession]);
 

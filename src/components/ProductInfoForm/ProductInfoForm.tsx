@@ -18,7 +18,7 @@ import { Control, Controller, FormState } from 'react-hook-form';
 
 import { styles } from './ProductInfoForm.styles';
 import { ToneSelector } from './ToneSelector';
-import { ProductInput } from './useProductInfoForm';
+import { FormFields, ProductInput } from './useProductInfoForm';
 
 type Step = {
   name: string;
@@ -31,8 +31,8 @@ type Step = {
 type Props = {
   sx?: SxProps;
   inputs: Record<keyof ProductInfoInput, ProductInput>;
-  formState: FormState<any>;
-  control: Control;
+  formState: FormState<FormFields>;
+  control: Control<FormFields>;
   onSubmit: () => Promise<void>;
   validate: (f: () => void) => () => void;
 };
@@ -86,12 +86,12 @@ export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, vali
           {description}
         </StepLabel>
         <StepContent>
-          {inputs.map(({ onDelete, onKeyDown, hint: inputHint, state, ...input }) => (
+          {inputs.map(({ onDelete, onKeyDown, hint: inputHint, state, rules, ...input }) => (
             <Controller
               key={input.name}
               name={input.name}
               control={control}
-              rules={input.rules}
+              rules={rules}
               render={({ field, fieldState: { error } }) =>
                 input.name === 'tone' ? (
                   <ToneSelector activeTone={state[0] as Tone} setActiveTone={state[1]} />
@@ -102,7 +102,7 @@ export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, vali
                     fullWidth
                     {...input}
                     rows={3}
-                    required={input.rules?.required}
+                    required={!!rules?.required}
                     error={!!error}
                     color="secondary"
                     helperText={error?.message ?? inputHint}
@@ -136,7 +136,7 @@ export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, vali
           <Box sx={{ mb: 2 }}>
             <div>
               <Button
-                disabled={!!formState.errors[steps[activeStep].name]}
+                disabled={!!formState.errors[steps[activeStep].name as keyof FormFields]}
                 variant="contained"
                 onClick={() => handleNext()}
                 sx={{ mt: 1, mr: 1 }}

@@ -49,10 +49,7 @@ export const GeneratePage = () => {
 
         <Card raised sx={styles.card}>
           <Box sx={styles.context}>
-            <ProductInfoForm
-              sx={{ width: '50%', pr: 8, boxSizing: 'border-box' }}
-              {...{ onSubmit, inputs, control, formState, validate }}
-            />
+            <ProductInfoForm sx={styles.productInfoForm} {...{ onSubmit, inputs, control, formState, validate }} />
             <ProductDescription {...{ productDescription, isLoading }} />
           </Box>
         </Card>

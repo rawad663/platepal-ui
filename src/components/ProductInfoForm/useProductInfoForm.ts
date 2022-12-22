@@ -4,7 +4,7 @@ import { KeyboardEventHandler, useState } from 'react';
 import { useForm, ValidationRule } from 'react-hook-form';
 
 export type ProductInput = {
-  name: string;
+  name: keyof FormFields;
   state?: any;
   label: string;
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
@@ -15,8 +15,25 @@ export type ProductInput = {
   rules?: ValidationRule<any>;
 };
 
+export type FormFields = {
+  name: string;
+  description: string;
+  features: string;
+  guarantee: string;
+  audience: string;
+  tone: string;
+};
+
 export const useProductInfoForm = () => {
-  const { control, handleSubmit, setValue, formState } = useForm({ mode: 'all' });
+  const defaultValues: FormFields = {
+    name: '',
+    description: '',
+    features: '',
+    guarantee: '',
+    audience: '',
+    tone: '',
+  };
+  const { control, handleSubmit, setValue, formState } = useForm<FormFields>({ mode: 'all', defaultValues });
 
   const [features, setFeatures] = useState<string[]>([]);
   const [activeTone, setActiveTone] = useState<Tone | undefined>();

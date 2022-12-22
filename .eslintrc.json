@@ -3,6 +3,7 @@
   "plugins": ["simple-import-sort"],
   "rules": {
     "no-console": "warn",
-    "simple-import-sort/imports": "warn"
+    "simple-import-sort/imports": "warn",
+    "no-unused-vars": "warn"
   }
 }

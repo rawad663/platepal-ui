@@ -13,7 +13,7 @@ export const usePdgApi = () => {
         baseURL: `${pdgServer.host}/api`,
         timeout: 30000,
         headers: {
-          // Authorization: session?.access_token ? `Bearer ${session?.access_token}` : undefined,
+          Authorization: session?.access_token ? `Bearer ${session?.access_token}` : undefined,
         },
       }),
     [session?.access_token],
