@@ -7,7 +7,7 @@ jobs:
   deploy-to-s3:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout'
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Configure AWS credentials
@@ -19,6 +19,14 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-session-name: MySessionName
           role-duration-seconds: 1200
+
+      - name: Setup Node v16.16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.16
+
+      - name: Install dependencies & Build
+        run: npm install && npm run build
 
       - name: Copy files to the production website with the AWS CLI
         run: aws s3 sync ./out s3://pdg-web
