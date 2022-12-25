@@ -1,5 +1,5 @@
-import Head from 'next/head';
 import { GeneratePage } from '@pdg/components/pageComponents/GeneratePage';
+import Head from 'next/head';
 
 export default function Generate() {
   return (

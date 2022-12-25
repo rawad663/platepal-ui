@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Typography, Menu, Avatar, Tooltip, MenuItem } from '@mui/material';
+import { Avatar, Box, Button, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { User } from '@supabase/supabase-js';
 import { useState } from 'react';
 
