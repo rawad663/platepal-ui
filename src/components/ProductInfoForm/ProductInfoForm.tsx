@@ -15,9 +15,9 @@ import { grey } from '@mui/material/colors';
 import { ProductInfoInput, Tone, WordRange } from '@pdg/types/product-descriptions';
 import { useState } from 'react';
 import { Control, Controller, FormState } from 'react-hook-form';
-import { RangeSelector } from './RangeSelector';
 
 import { styles } from './ProductInfoForm.styles';
+import { RangeSelector } from './RangeSelector';
 import { ToneSelector } from './ToneSelector';
 import { FormFields, ProductInput } from './useProductInfoForm';
 

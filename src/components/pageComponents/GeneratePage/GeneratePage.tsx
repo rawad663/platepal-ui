@@ -45,7 +45,7 @@ export const GeneratePage = () => {
     <ThemeProvider theme={lightTheme}>
       <Box mt={8} flex={1} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography mb={4} variant="h3" textAlign="center">
-          Create Beautiful Product Descriptions
+          Create Product Descriptions
         </Typography>
 
         <Card raised sx={styles.card}>

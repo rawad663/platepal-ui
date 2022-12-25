@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Box, IconButton, Typography, Menu, Button, MenuItem } from '@mui/material';
 import { Adb as AdbIcon, Menu as MenuIcon } from '@mui/icons-material';
+import { Box, Button, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { useState } from 'react';
 
 type Props = {
   pages: string[];
@@ -35,7 +35,7 @@ export const LeftAdornment = ({ pages }: Props) => {
             textDecoration: 'none',
           }}
         >
-          PDG
+          CopyCraft.AI
         </Typography>
       </Box>
 
