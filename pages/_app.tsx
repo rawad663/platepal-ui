@@ -8,11 +8,12 @@ import { ThemeProvider } from '@mui/material/styles';
 import { AppBar } from '@pdg/components/AppBar/AppBar';
 import { SessionProvider } from '@pdg/providers/SessionProvider';
 import { SupabaseProvider } from '@pdg/providers/SupabaseProvider';
+import { getConfig } from '@pdg/utils/getConfig';
 import { darkTheme } from '@pdg/utils/theme';
-import config from '@root/config/dev.js';
 import { createClient } from '@supabase/supabase-js';
 import type { AppProps } from 'next/app';
 
+const config = getConfig();
 const supabase = createClient(config.supabase.host, (config as any).supabase.anon);
 
 export default function App({ Component, pageProps }: AppProps) {

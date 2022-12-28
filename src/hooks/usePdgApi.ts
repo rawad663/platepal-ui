@@ -1,8 +1,10 @@
-import { pdgServer } from '@root/config/dev';
+import { getConfig } from '@pdg/utils/getConfig';
 import axios from 'axios';
 import { useMemo } from 'react';
 
 import { useSession } from './useSession';
+
+const config = getConfig();
 
 export const usePdgApi = () => {
   const { session } = useSession();
@@ -10,7 +12,7 @@ export const usePdgApi = () => {
   const instance = useMemo(
     () =>
       axios.create({
-        baseURL: `${pdgServer.host}/api`,
+        baseURL: `${config.pdgServer.host}/api`,
         timeout: 30000,
         headers: {
           Authorization: session?.access_token ? `Bearer ${session?.access_token}` : undefined,
