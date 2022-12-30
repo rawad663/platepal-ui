@@ -1,33 +1,10 @@
-import {
-  Box,
-  Button,
-  Chip,
-  InputAdornment,
-  Step,
-  StepContent,
-  StepLabel,
-  Stepper,
-  SxProps,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Button, Chip, Divider, InputAdornment, Paper, SxProps, TextField, Typography } from '@mui/material';
 import { ProductInfoInput, Tone, WordRange } from '@pdg/types/product-descriptions';
-import { useState } from 'react';
 import { Control, Controller, FormState } from 'react-hook-form';
 
-import { styles } from './ProductInfoForm.styles';
 import { RangeSelector } from './RangeSelector';
 import { ToneSelector } from './ToneSelector';
 import { FormFields, ProductInput } from './useProductInfoForm';
-
-type Step = {
-  name: string;
-  inputs: ProductInput[];
-  description: string;
-  hint?: string;
-  onNext?: () => void;
-};
 
 type Props = {
   sx?: SxProps;
@@ -36,135 +13,83 @@ type Props = {
   control: Control<FormFields>;
   isLoading: boolean;
   onSubmit: () => Promise<void>;
-  validate: (f: () => void) => () => void;
 };
 
-export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, validate, isLoading }: Props) => {
-  const [activeStep, setActiveStep] = useState<number>(0);
-
-  const steps: Step[] = [
-    {
-      name: 'name',
-      inputs: [inputs.name],
-      description: 'What is the name of your product?',
-      hint: '',
-    },
-    {
-      name: 'description',
-      inputs: [inputs.description],
-      description: 'Give a short description of your product.',
-      hint: 'A sentence or two should suffice',
-    },
-    {
-      name: 'additionalInfo',
-      inputs: [inputs.tone, inputs.wordRange, inputs.features, inputs.audience /*inputs.guarantee*/],
-      description: 'Additional information (Recommended)',
-      hint: 'Fill in as many of these fields to create a more relevant description.',
-    },
-  ];
-
-  const handleNext = validate(() => {
-    if (activeStep < steps.length - 1) {
-      setActiveStep((activeStep) => activeStep + 1);
-    } else {
-      onSubmit();
-    }
-  });
-
-  const handleBack = () => {
-    if (activeStep === 0) {
-      return;
-    }
-
-    setActiveStep((activeStep) => activeStep - 1);
-  };
-
-  const renderStep = ({ name, inputs, hint, description }: Step, index: number) => {
-    const answer = control._formValues[name];
-
-    return (
-      <Step sx={styles.root} key={name}>
-        <StepLabel optional={(answer || hint) && <Typography variant="caption">{answer || hint}</Typography>}>
-          {description}
-        </StepLabel>
-        <StepContent>
-          {inputs.map(({ onDelete, onKeyDown, hint: inputHint, state, rules, ...input }) => (
-            <Controller
-              key={input.name}
-              name={input.name}
-              control={control}
-              rules={rules}
-              render={({ field, fieldState: { error } }) => (
-                <>
-                  {input.name === 'tone' && <ToneSelector activeTone={state[0] as Tone} setActiveTone={state[1]} />}
-                  {input.name === 'wordRange' && (
-                    <RangeSelector activeRange={state[0] as WordRange} setActiveRange={state[1]} />
-                  )}
-                  {input.name !== 'tone' && input.name !== 'wordRange' && (
-                    <TextField
-                      sx={{ mb: 1 }}
-                      variant="filled"
-                      fullWidth
-                      {...input}
-                      rows={3}
-                      required={!!rules?.required}
-                      error={!!error}
-                      color="secondary"
-                      helperText={error?.message ?? inputHint}
-                      inputProps={{
-                        ...field,
-                      }}
-                      InputProps={{
-                        sx: { color: 'common.white' },
-                        onKeyDown: onKeyDown,
-                        startAdornment:
-                          input.name === 'features'
-                            ? (state as string[]).map((val, i) => (
-                                <InputAdornment key={i} position="start">
-                                  <Chip
-                                    size="small"
-                                    color="secondary"
-                                    variant="filled"
-                                    label={val}
-                                    onDelete={() => onDelete && onDelete(i)}
-                                  />
-                                </InputAdornment>
-                              ))
-                            : null,
-                      }}
-                    />
-                  )}
-                </>
-              )}
+export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, isLoading }: Props) => {
+  const renderInput = ({ onDelete, onKeyDown, hint: inputHint, state, rules, ...input }: ProductInput) => (
+    <Controller
+      key={input.name}
+      name={input.name}
+      control={control}
+      rules={rules}
+      render={({ field, fieldState: { error } }) => (
+        <>
+          {input.name === 'tone' && <ToneSelector activeTone={state[0] as Tone} setActiveTone={state[1]} />}
+          {input.name === 'wordRange' && (
+            <RangeSelector activeRange={state[0] as WordRange} setActiveRange={state[1]} />
+          )}
+          {input.name !== 'tone' && input.name !== 'wordRange' && (
+            <TextField
+              sx={{ mb: 2 }}
+              variant="filled"
+              fullWidth
+              {...input}
+              rows={3}
+              required={!!rules?.required}
+              error={!!error}
+              color="secondary"
+              helperText={error?.message ?? inputHint}
+              inputProps={{
+                ...field,
+              }}
+              InputProps={{
+                sx: { color: 'common.white' },
+                onKeyDown: onKeyDown,
+                startAdornment:
+                  input.name === 'features'
+                    ? (state as string[]).map((val, i) => (
+                        <InputAdornment key={i} position="start">
+                          <Chip
+                            size="small"
+                            color="secondary"
+                            variant="filled"
+                            label={val}
+                            onDelete={() => onDelete && onDelete(i)}
+                          />
+                        </InputAdornment>
+                      ))
+                    : null,
+              }}
             />
-          ))}
-
-          <Box sx={{ mb: 2 }}>
-            <div>
-              <Button
-                disabled={!!formState.errors[steps[activeStep].name as keyof FormFields] || isLoading}
-                variant="contained"
-                onClick={() => handleNext()}
-                color={activeStep === steps.length - 1 ? 'secondary' : 'primary'}
-                sx={{ mt: 1, mr: 1 }}
-              >
-                {index === steps.length - 1 ? 'Generate' : 'Continue'}
-              </Button>
-              <Button disabled={index === 0} onClick={handleBack} sx={{ mt: 1, mr: 1, color: grey[900] }}>
-                Back
-              </Button>
-            </div>
-          </Box>
-        </StepContent>
-      </Step>
-    );
-  };
+          )}
+        </>
+      )}
+    />
+  );
 
   return (
-    <Box py={2} sx={sx}>
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map(renderStep)}
-      </Stepper>
-    </Box>
+    <Paper elevation={1} sx={sx}>
+      <Typography variant="h5" sx={{ my: 2 }}>
+        Describe your product
+      </Typography>
+
+      {[inputs.name, inputs.description].map(renderInput)}
+
+      <Divider sx={{ mt: 1, mb: 2 }} />
+
+      <Typography sx={{ mb: 1 }}>Additional Information (Recommended)</Typography>
+
+      {[inputs.tone, inputs.wordRange, inputs.features].map(renderInput)}
+
+      <Button
+        fullWidth
+        disabled={!!Object.keys(formState.errors).length || isLoading}
+        variant="contained"
+        onClick={() => onSubmit()}
+        color="primary"
+      >
+        Generate
+      </Button>
+    </Paper>
   );
 };

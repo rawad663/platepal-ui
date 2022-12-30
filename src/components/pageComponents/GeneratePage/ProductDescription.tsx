@@ -1,8 +1,7 @@
-import { Box, CircularProgress, TextField, Typography } from '@mui/material';
-import { validationErrors } from '@pdg/declarations/fieldValidation';
+import { Box, CircularProgress, Paper, Typography } from '@mui/material';
 import { IProductDescription } from '@pdg/types/product-descriptions';
-import { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import ReadingIllustration from '@root/public/assets/reading.webp';
+import Image from 'next/image';
 
 type Props = {
   productDescription?: IProductDescription;
@@ -10,50 +9,48 @@ type Props = {
 };
 
 export const ProductDescription = ({ productDescription, isLoading }: Props) => {
-  const { control, setValue } = useForm({ mode: 'onBlur' });
-
-  useEffect(() => {
-    if (!productDescription) return;
-
-    setValue('productDescription', productDescription.content);
-  }, [productDescription, setValue]);
-
   return (
-    <Box flex={1} py={2}>
-      <Typography variant="h4" mb={2}>
-        Output
-      </Typography>
+    <Box p={4} sx={{ flex: 1, position: 'relative' }}>
+      {/* CREATE BANNER HERE */}
+      <Box></Box>
 
-      <Box sx={{ position: 'relative' }}>
-        <Controller
-          name="productDescription"
-          control={control}
-          rules={{ required: { value: true, message: validationErrors.required } }}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              InputProps={{
-                sx: { color: 'common.white' },
-              }}
-              inputProps={{
-                ...field,
-              }}
-              variant="filled"
-              value={productDescription?.content ?? ''}
-              disabled={!productDescription || isLoading || !!error}
-              fullWidth
-              label="Your product description"
-              color="secondary"
-              multiline
-              rows={20}
-              placeholder="ex: Funky Monkey"
+      {productDescription ? (
+        <Paper elevation={1} sx={{ p: 2 }}>
+          <Typography paragraph variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+            {productDescription.content}
+          </Typography>
+
+          <Typography variant="caption" color="text.secondary">
+            {productDescription.content.split(' ').length} words / {productDescription.content.length} characters
+          </Typography>
+        </Paper>
+      ) : (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          <Box sx={{ '& > img': { borderRadius: 8 } }} display="flex" flexDirection="column" alignItems="center">
+            <Image
+              src={ReadingIllustration.src}
+              alt="a person reading a book"
+              width={ReadingIllustration.width / 2.5}
+              height={ReadingIllustration.height / 2.5}
             />
-          )}
-        />
+            <Typography mt={2} fontWeight="normal" color="text.secondary">
+              Your AI generated content will show up here
+            </Typography>
+          </Box>
+        </Box>
+      )}
 
-        {isLoading && (
-          <CircularProgress size={70} sx={{ position: 'absolute', m: 'auto', top: 0, right: 0, bottom: 0, left: 0 }} />
-        )}
-      </Box>
+      {isLoading && (
+        <CircularProgress size={70} sx={{ position: 'absolute', m: 'auto', top: 0, right: 0, bottom: 0, left: 0 }} />
+      )}
     </Box>
   );
 };

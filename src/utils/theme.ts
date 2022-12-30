@@ -4,10 +4,11 @@ const baseTheme = {
   palette: {
     mode: 'dark',
     primary: {
-      main: '#654bb6',
+      main: '#00509D',
+      dark: '#00296B',
     },
     secondary: {
-      main: '#b1cf55',
+      main: '#FFD500',
     },
   },
 };
@@ -27,3 +28,10 @@ export const lightTheme = createTheme({
     mode: 'light',
   },
 });
+
+// if (window) {
+//   (window as any).theme = {
+//     darkTheme,
+//     lightTheme,
+//   };
+// }
