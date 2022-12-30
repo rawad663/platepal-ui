@@ -11,8 +11,10 @@ export const styles = {
     display: { xs: 'inline', md: 'flex' },
   },
   productInfoForm: {
-    width: { xs: '100%', md: '50%' },
-    pr: { xs: 0, md: 8 },
+    width: { xs: '100%', md: 450 },
+    backgroundColor: 'background.paper',
+    px: { xs: 0, md: 2.5 },
+    py: 2,
     boxSizing: 'border-box',
   },
 };

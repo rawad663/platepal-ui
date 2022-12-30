@@ -1,17 +1,16 @@
-import * as React from 'react';
-import { AppBar as MuiAppBar, Toolbar, Container } from '@mui/material';
+import { AppBar as MuiAppBar, Container, Toolbar } from '@mui/material';
+import { useSession } from '@pdg/hooks/useSession';
 
 import { LeftAdornment } from './LeftAdornment';
 import { RightAdornment } from './RightAdornment';
-import { useSession } from '@pdg/hooks/useSession';
 
 export const AppBar = () => {
   const { session, signInWithOAuth, signOut } = useSession();
 
-  const pages = ['Products', 'Pricing', 'Blog'];
+  const pages: string[] = [];
 
   return (
-    <MuiAppBar color="primary" position="static" enableColorOnDark>
+    <MuiAppBar color="primary" position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <LeftAdornment pages={pages} />

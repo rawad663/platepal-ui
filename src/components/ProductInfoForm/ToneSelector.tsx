@@ -17,6 +17,7 @@ export const ToneSelector = ({ activeTone, setActiveTone }: Props) => {
 
       <ToggleButtonGroup
         color="secondary"
+        size="small"
         value={activeTone}
         exclusive
         onChange={(_, newTone) => setActiveTone(newTone)}

@@ -35,7 +35,7 @@ export const LeftAdornment = ({ pages }: Props) => {
             textDecoration: 'none',
           }}
         >
-          CopyCraft.AI
+          Creativ Pen
         </Typography>
       </Box>
 
