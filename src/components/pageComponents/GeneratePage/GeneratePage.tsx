@@ -25,7 +25,7 @@ export const GeneratePage = () => {
       audience,
       guarantee,
       tone: states.activeTone,
-      wordRange: states.activeRange,
+      wordCount: states.activeCount,
     };
 
     setIsLoading(true);
@@ -41,7 +41,7 @@ export const GeneratePage = () => {
   });
 
   return (
-    <Box flex={1} sx={{ display: 'flex', height: '100vh' }}>
+    <Box flex={1} sx={{ display: 'flex', minHeight: '100vh' }}>
       <ProductInfoForm sx={styles.productInfoForm} {...{ onSubmit, inputs, control, formState, isLoading }} />
       <ProductDescription
         {...{

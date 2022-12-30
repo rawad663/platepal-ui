@@ -1,15 +1,15 @@
 import { Box, Slider, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-import { PlatformType, WordRange } from '@pdg/types/product-descriptions';
+import { PlatformType } from '@pdg/types/product-descriptions';
 import { useState } from 'react';
 
 type Platform = { name: string; value: PlatformType };
 
 type Props = {
-  activeRange: WordRange;
-  setActiveRange: (range: WordRange) => void;
+  activeCount: number;
+  setActiveCount: (range: number) => void;
 };
 
-export const RangeSelector = ({ activeRange, setActiveRange }: Props) => {
+export const RangeSelector = ({ activeCount, setActiveCount }: Props) => {
   const [activePlatform, setActivePlatform] = useState<PlatformType>('ecomm');
 
   const platforms: Platform[] = [
@@ -17,22 +17,22 @@ export const RangeSelector = ({ activeRange, setActiveRange }: Props) => {
     { name: 'Social media', value: 'socialMedia' },
     { name: 'Other', value: 'other' },
   ];
-  const wordRanges: Record<PlatformType, WordRange> = {
-    other: [50, 350],
-    ecomm: [300, 350],
-    socialMedia: [50, 100],
+  const wordCounts: Record<PlatformType, number> = {
+    other: 80,
+    ecomm: 300,
+    socialMedia: 150,
   };
 
   const sliderMarks = [
     { value: 0, label: '0' },
-    { value: 200, label: '200' },
-    { value: 400, label: '400' },
+    { value: 150, label: '150' },
+    { value: 300, label: '300' },
   ];
 
   return (
     <Box mb={1}>
       <Typography sx={{ mb: 1 }} variant="body2" color="text.secondary">
-        Select the word range of your description
+        Select the word count of your description
       </Typography>
 
       <ToggleButtonGroup
@@ -42,7 +42,7 @@ export const RangeSelector = ({ activeRange, setActiveRange }: Props) => {
         size="small"
         onChange={(_, platform) => {
           if (!platform) return;
-          setActiveRange(wordRanges[(platform as PlatformType) ?? 'other']);
+          setActiveCount(wordCounts[(platform as PlatformType) ?? 'other']);
           setActivePlatform(platform as PlatformType);
         }}
         aria-label="product description voice tone"
@@ -57,15 +57,15 @@ export const RangeSelector = ({ activeRange, setActiveRange }: Props) => {
       <Slider
         color="secondary"
         getAriaLabel={() => 'Minimum distance'}
-        value={activeRange}
-        onChange={(_, newRange) => {
+        value={activeCount}
+        onChange={(_, newCount) => {
           setActivePlatform('other');
-          setActiveRange(newRange as WordRange);
+          setActiveCount(newCount as number);
         }}
         valueLabelDisplay="auto"
         disableSwap
         min={0}
-        max={400}
+        max={300}
         marks={sliderMarks}
       />
     </Box>

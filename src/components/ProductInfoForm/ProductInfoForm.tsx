@@ -1,5 +1,5 @@
 import { Button, Chip, Divider, InputAdornment, Paper, SxProps, TextField, Typography } from '@mui/material';
-import { ProductInfoInput, Tone, WordRange } from '@pdg/types/product-descriptions';
+import { ProductInfoInput, Tone } from '@pdg/types/product-descriptions';
 import { Control, Controller, FormState } from 'react-hook-form';
 
 import { RangeSelector } from './RangeSelector';
@@ -16,56 +16,70 @@ type Props = {
 };
 
 export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, isLoading }: Props) => {
-  const renderInput = ({ onDelete, onKeyDown, hint: inputHint, state, rules, ...input }: ProductInput) => (
-    <Controller
-      key={input.name}
-      name={input.name}
-      control={control}
-      rules={rules}
-      render={({ field, fieldState: { error } }) => (
-        <>
-          {input.name === 'tone' && <ToneSelector activeTone={state[0] as Tone} setActiveTone={state[1]} />}
-          {input.name === 'wordRange' && (
-            <RangeSelector activeRange={state[0] as WordRange} setActiveRange={state[1]} />
-          )}
-          {input.name !== 'tone' && input.name !== 'wordRange' && (
-            <TextField
-              sx={{ mb: 2 }}
-              variant="filled"
-              fullWidth
-              {...input}
-              rows={3}
-              required={!!rules?.required}
-              error={!!error}
-              color="secondary"
-              helperText={error?.message ?? inputHint}
-              inputProps={{
-                ...field,
-              }}
-              InputProps={{
-                sx: { color: 'common.white' },
-                onKeyDown: onKeyDown,
-                startAdornment:
-                  input.name === 'features'
-                    ? (state as string[]).map((val, i) => (
-                        <InputAdornment key={i} position="start">
-                          <Chip
-                            size="small"
-                            color="secondary"
-                            variant="filled"
-                            label={val}
-                            onDelete={() => onDelete && onDelete(i)}
-                          />
-                        </InputAdornment>
-                      ))
-                    : null,
-              }}
-            />
-          )}
-        </>
-      )}
-    />
-  );
+  const renderInput = ({ onDelete, onKeyDown, hint: inputHint, state, rules, ...input }: ProductInput) => {
+    let inputComponent: React.ReactNode = null;
+    switch (input.name) {
+      case 'tone': {
+        inputComponent = <ToneSelector activeTone={state[0] as Tone} setActiveTone={state[1]} />;
+        break;
+      }
+      case 'wordCount': {
+        inputComponent = <RangeSelector activeCount={state[0] as number} setActiveCount={state[1]} />;
+        break;
+      }
+      default: {
+        inputComponent = null;
+        break;
+      }
+    }
+
+    return (
+      <Controller
+        key={input.name}
+        name={input.name}
+        control={control}
+        rules={rules}
+        render={({ field, fieldState: { error } }) => (
+          <>
+            {inputComponent ?? (
+              <TextField
+                sx={{ mb: 2 }}
+                variant="filled"
+                fullWidth
+                {...input}
+                rows={3}
+                required={!!rules?.required}
+                error={!!error}
+                color="secondary"
+                helperText={error?.message ?? inputHint}
+                inputProps={{
+                  ...field,
+                }}
+                InputProps={{
+                  sx: { color: 'common.white' },
+                  onKeyDown: onKeyDown,
+                  startAdornment:
+                    input.name === 'features'
+                      ? (state as string[]).map((val, i) => (
+                          <InputAdornment key={i} position="start">
+                            <Chip
+                              size="small"
+                              color="secondary"
+                              variant="filled"
+                              label={val}
+                              onDelete={() => onDelete && onDelete(i)}
+                            />
+                          </InputAdornment>
+                        ))
+                      : null,
+                }}
+              />
+            )}
+          </>
+        )}
+      />
+    );
+  };
 
   return (
     <Paper elevation={1} sx={sx}>
@@ -79,7 +93,7 @@ export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, isLo
 
       <Typography sx={{ mb: 1 }}>Additional Information (Recommended)</Typography>
 
-      {[inputs.tone, inputs.wordRange, inputs.features].map(renderInput)}
+      {[inputs.tone, inputs.wordCount, inputs.features, inputs.audience].map(renderInput)}
 
       <Button
         fullWidth

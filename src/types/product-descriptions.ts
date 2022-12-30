@@ -1,6 +1,5 @@
 export type Tone = 'formal' | 'informal' | 'curious' | 'friendly';
 export type PlatformType = 'socialMedia' | 'ecomm' | 'other';
-export type WordRange = [number, number]; // [min, max]
 
 export type ProductInfoInput = {
   name: string;
@@ -9,7 +8,7 @@ export type ProductInfoInput = {
   audience?: string;
   guarantee?: string;
   tone?: Tone;
-  wordRange?: WordRange;
+  wordCount?: number;
 };
 
 export type IProductInfo = ProductInfoInput & {
@@ -19,7 +18,10 @@ export type IProductInfo = ProductInfoInput & {
 
 // "Raw" is a term used for the database version
 // where snake case is used instead of camel case
-export type IProductInfoRaw = IProductDescription;
+export type IProductInfoRaw = Omit<IProductInfo, 'createdAt' | 'wordCount'> & {
+  created_at: Date;
+  word_count?: number;
+};
 
 export type ProductDescriptionInput = {
   user_id?: string;

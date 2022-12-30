@@ -1,5 +1,5 @@
 import { validationErrors } from '@pdg/declarations/fieldValidation';
-import { ProductInfoInput, Tone, WordRange } from '@pdg/types/product-descriptions';
+import { ProductInfoInput, Tone } from '@pdg/types/product-descriptions';
 import { KeyboardEventHandler, useState } from 'react';
 import { useForm, ValidationRule } from 'react-hook-form';
 
@@ -22,7 +22,7 @@ export type FormFields = {
   guarantee: string;
   audience: string;
   tone: string;
-  wordRange: string;
+  wordCount: string;
 };
 
 export const useProductInfoForm = () => {
@@ -33,13 +33,13 @@ export const useProductInfoForm = () => {
     guarantee: '',
     audience: '',
     tone: '',
-    wordRange: '',
+    wordCount: '',
   };
   const { control, handleSubmit, setValue, formState } = useForm<FormFields>({ mode: 'all', defaultValues });
 
   const [features, setFeatures] = useState<string[]>([]);
   const [activeTone, setActiveTone] = useState<Tone | undefined>();
-  const [activeRange, setActiveRange] = useState<WordRange>([250, 300]);
+  const [activeCount, setActiveCount] = useState<number>(150);
 
   const inputs: Record<keyof ProductInfoInput, ProductInput> = {
     name: {
@@ -54,10 +54,10 @@ export const useProductInfoForm = () => {
       label: 'Product description',
       multiline: true,
     },
-    wordRange: {
-      name: 'wordRange',
-      state: [activeRange, setActiveRange],
-      label: 'Word range',
+    wordCount: {
+      name: 'wordCount',
+      state: [activeCount, setActiveCount],
+      label: 'Word count',
     },
     features: {
       name: 'features',
@@ -101,7 +101,7 @@ export const useProductInfoForm = () => {
     states: {
       features,
       activeTone,
-      activeRange,
+      activeCount,
     },
     formState,
     control,
