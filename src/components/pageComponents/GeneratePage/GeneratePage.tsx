@@ -9,7 +9,7 @@ import { styles } from './GeneratePage.styles';
 import { ProductDescription } from './ProductDescription';
 
 export const GeneratePage = () => {
-  const [productDescription, setDescription] = useState<IProductDescription | undefined>();
+  const [productDescriptions, setDescriptions] = useState<IProductDescription[] | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const instance = usePdgApi();
@@ -31,8 +31,8 @@ export const GeneratePage = () => {
     setIsLoading(true);
 
     try {
-      const { data } = await instance.post<IProductDescription>('/descriptions/create', body);
-      setDescription(data);
+      const { data } = await instance.post<IProductDescription[]>('/descriptions/create', body);
+      setDescriptions(data);
     } catch (err) {
       throw err;
     } finally {
@@ -45,7 +45,7 @@ export const GeneratePage = () => {
       <ProductInfoForm sx={styles.productInfoForm} {...{ onSubmit, inputs, control, formState, isLoading }} />
       <ProductDescription
         {...{
-          productDescription,
+          productDescriptions,
           isLoading,
         }}
       />

@@ -4,26 +4,28 @@ import ReadingIllustration from '@root/public/assets/reading.webp';
 import Image from 'next/image';
 
 type Props = {
-  productDescription?: IProductDescription;
+  productDescriptions?: IProductDescription[];
   isLoading: boolean;
 };
 
-export const ProductDescription = ({ productDescription, isLoading }: Props) => {
+export const ProductDescription = ({ productDescriptions, isLoading }: Props) => {
   return (
     <Box p={4} sx={{ flex: 1, position: 'relative' }}>
       {/* CREATE BANNER HERE */}
       <Box></Box>
 
-      {productDescription ? (
-        <Paper elevation={1} sx={{ p: 2 }}>
-          <Typography paragraph variant="body1" sx={{ whiteSpace: 'pre-line' }}>
-            {productDescription.content}
-          </Typography>
+      {productDescriptions ? (
+        productDescriptions.map(({ id, content }) => (
+          <Paper key={id} elevation={1} sx={{ p: 2 }}>
+            <Typography paragraph variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+              {content}
+            </Typography>
 
-          <Typography variant="caption" color="text.secondary">
-            {productDescription.content.split(' ').length} words / {productDescription.content.length} characters
-          </Typography>
-        </Paper>
+            <Typography variant="caption" color="text.secondary">
+              {content.split(' ').length} words / {content.length} characters
+            </Typography>
+          </Paper>
+        ))
       ) : (
         <Box
           display="flex"
