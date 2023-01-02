@@ -1,6 +1,6 @@
 module.exports = {
   pdgServer: {
-    host: 'http://localhost:5000',
+    host: ' https://pdg-api.herokuapp.com/',
   },
   supabase: {
     host: 'https://hbvilwbjflfdmbvuhfmv.supabase.co',
