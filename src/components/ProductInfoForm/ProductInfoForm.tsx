@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useMediaQueries } from '@pdg/hooks/useMediaQueries';
 import { usePdgApi } from '@pdg/hooks/usePdgApi';
 import { IProductDescription, ProductInfoInput, Tone } from '@pdg/types/product-descriptions';
 import { Controller } from 'react-hook-form';
@@ -31,6 +32,7 @@ export type Props = {
 export const ProductInfoForm = ({ sx, isLoading, setDescriptions, setIsLoading, onSubmit }: Props) => {
   const instance = usePdgApi();
   const { inputs, control, states, validate, formState } = useProductInfoForm();
+  const { isMobile } = useMediaQueries();
 
   const handleSubmit = validate(async ({ name, description, audience, guarantee }) => {
     if (Object.keys(formState.errors).length > 0) return;
@@ -135,6 +137,7 @@ export const ProductInfoForm = ({ sx, isLoading, setDescriptions, setIsLoading, 
         disableGutters
         color="background.paper"
         elevation={0}
+        defaultExpanded={!isMobile}
         sx={{ mb: 3, backgroundColor: 'lightBackground.main' }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
