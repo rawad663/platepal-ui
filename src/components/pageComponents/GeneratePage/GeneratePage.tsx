@@ -17,7 +17,7 @@ export const GeneratePage = () => {
   const { isMobile } = useMediaQueries();
 
   return (
-    <Box flex={1} sx={{ display: { md: 'flex', xs: 'inline-block' }, minHeight: '92vh' }}>
+    <Box flex={1} sx={{ display: { md: 'flex', xs: 'inline-block' }, width: '100%', minHeight: '92vh' }}>
       {isMobile ? (
         <ProductInfoFormSlider
           open={drawerOpen}

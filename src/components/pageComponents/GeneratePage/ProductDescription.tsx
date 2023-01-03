@@ -44,6 +44,7 @@ export const ProductDescription = ({ productDescriptions, isLoading }: Props) =>
             display="flex"
             flexDirection="column"
             alignItems="center"
+            justifyContent="center"
           >
             <Image
               src={ReadingIllustration.src}
@@ -51,7 +52,7 @@ export const ProductDescription = ({ productDescriptions, isLoading }: Props) =>
               width={isMobile ? ReadingIllustration.width / 6.2 : ReadingIllustration.width / 3.2}
               height={isMobile ? ReadingIllustration.height / 6.2 : ReadingIllustration.height / 3.2}
             />
-            <Typography variant="h5" mt={2} fontWeight="normal" color="text.secondary" textAlign="center">
+            <Typography variant="body1" mt={2} fontWeight="normal" color="text.secondary" textAlign="center">
               Your AI generated content will show up here
             </Typography>
           </Box>
