@@ -12,7 +12,7 @@ export const AppBar = () => {
   return (
     <MuiAppBar color="primary" position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ width: '100%' }}>
+        <Toolbar sx={{ justifyContent: 'space-between' }} disableGutters>
           <LeftAdornment pages={pages} />
           <RightAdornment user={session?.user} signIn={signInWithOAuth} signOut={signOut} />
         </Toolbar>

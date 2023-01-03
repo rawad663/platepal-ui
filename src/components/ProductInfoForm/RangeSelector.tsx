@@ -10,11 +10,11 @@ type Props = {
 };
 
 export const RangeSelector = ({ activeCount, setActiveCount }: Props) => {
-  const [activePlatform, setActivePlatform] = useState<PlatformType>('ecomm');
+  const [activePlatform, setActivePlatform] = useState<PlatformType>('socialMedia');
 
   const platforms: Platform[] = [
-    { name: 'E-commerce', value: 'ecomm' },
     { name: 'Social media', value: 'socialMedia' },
+    { name: 'E-commerce', value: 'ecomm' },
     { name: 'Other', value: 'other' },
   ];
   const wordCounts: Record<PlatformType, number> = {
