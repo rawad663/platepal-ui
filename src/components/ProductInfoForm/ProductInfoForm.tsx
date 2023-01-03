@@ -1,8 +1,11 @@
+import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Button,
   Chip,
   CircularProgress,
-  Divider,
   InputAdornment,
   Paper,
   SxProps,
@@ -128,11 +131,19 @@ export const ProductInfoForm = ({ sx, isLoading, setDescriptions, setIsLoading, 
 
       {[inputs.name, inputs.description].map(renderInput)}
 
-      <Divider sx={{ mt: 1, mb: 2 }} />
-
-      <Typography sx={{ mb: 1 }}>Additional Information (Recommended)</Typography>
-
-      {[inputs.tone, inputs.wordCount, inputs.features, inputs.audience].map(renderInput)}
+      <Accordion
+        disableGutters
+        color="background.paper"
+        elevation={0}
+        sx={{ mb: 3, backgroundColor: 'lightBackground.main' }}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography>Additional Information (Recommended)</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {[inputs.tone, inputs.wordCount, inputs.features, inputs.audience].map(renderInput)}
+        </AccordionDetails>
+      </Accordion>
 
       <Button
         sx={{ mb: 2 }}

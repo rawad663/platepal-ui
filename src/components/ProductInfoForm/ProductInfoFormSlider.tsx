@@ -52,7 +52,7 @@ export const ProductInfoFormSlider = ({ open, onClose, onOpen, setIsLoading, set
 
       <ProductInfoForm
         sx={{
-          maxHeight: '80vh',
+          maxHeight: '90vh',
           overflow: 'scroll',
           px: 2,
           pt: 4,
