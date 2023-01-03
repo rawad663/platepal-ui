@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Paper, Typography } from '@mui/material';
+import { useMediaQueries } from '@pdg/hooks/useMediaQueries';
 import { IProductDescription } from '@pdg/types/product-descriptions';
 import ReadingIllustration from '@root/public/assets/people.webp';
 import Image from 'next/image';
@@ -9,8 +10,10 @@ type Props = {
 };
 
 export const ProductDescription = ({ productDescriptions, isLoading }: Props) => {
+  const { isMobile } = useMediaQueries();
+
   return (
-    <Box p={4} sx={{ flex: 1, position: 'relative' }}>
+    <Box sx={{ flex: 1, position: 'relative', p: { xs: 1, md: 4 } }}>
       {/* CREATE BANNER HERE */}
       <Box></Box>
 
@@ -36,14 +39,19 @@ export const ProductDescription = ({ productDescriptions, isLoading }: Props) =>
             height: '100%',
           }}
         >
-          <Box sx={{ '& > img': { borderRadius: 8 } }} display="flex" flexDirection="column" alignItems="center">
+          <Box
+            sx={{ '& > img': { borderRadius: 8 }, mt: { xs: 4 } }}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+          >
             <Image
               src={ReadingIllustration.src}
               alt="a person reading a book"
-              width={ReadingIllustration.width / 3.2}
-              height={ReadingIllustration.height / 3.2}
+              width={isMobile ? ReadingIllustration.width / 6.2 : ReadingIllustration.width / 3.2}
+              height={isMobile ? ReadingIllustration.height / 6.2 : ReadingIllustration.height / 3.2}
             />
-            <Typography variant="h5" mt={2} fontWeight="normal" color="text.secondary">
+            <Typography variant="h5" mt={2} fontWeight="normal" color="text.secondary" textAlign="center">
               Your AI generated content will show up here
             </Typography>
           </Box>

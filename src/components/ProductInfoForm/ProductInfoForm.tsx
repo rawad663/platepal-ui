@@ -1,21 +1,60 @@
-import { Button, Chip, Divider, InputAdornment, Paper, SxProps, TextField, Typography } from '@mui/material';
-import { ProductInfoInput, Tone } from '@pdg/types/product-descriptions';
-import { Control, Controller, FormState } from 'react-hook-form';
+import {
+  Button,
+  Chip,
+  CircularProgress,
+  Divider,
+  InputAdornment,
+  Paper,
+  SxProps,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { usePdgApi } from '@pdg/hooks/usePdgApi';
+import { IProductDescription, ProductInfoInput, Tone } from '@pdg/types/product-descriptions';
+import { Controller } from 'react-hook-form';
 
 import { RangeSelector } from './RangeSelector';
 import { ToneSelector } from './ToneSelector';
-import { FormFields, ProductInput } from './useProductInfoForm';
+import { ProductInput, useProductInfoForm } from './useProductInfoForm';
 
-type Props = {
+export type Props = {
   sx?: SxProps;
-  inputs: Record<keyof ProductInfoInput, ProductInput>;
-  formState: FormState<FormFields>;
-  control: Control<FormFields>;
   isLoading: boolean;
-  onSubmit: () => Promise<void>;
+  setDescriptions: (descriptions: IProductDescription[]) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  onSubmit?: () => void;
 };
 
-export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, isLoading }: Props) => {
+export const ProductInfoForm = ({ sx, isLoading, setDescriptions, setIsLoading, onSubmit }: Props) => {
+  const instance = usePdgApi();
+  const { inputs, control, states, validate, formState } = useProductInfoForm();
+
+  const handleSubmit = validate(async ({ name, description, audience, guarantee }) => {
+    if (Object.keys(formState.errors).length > 0) return;
+
+    const body: ProductInfoInput = {
+      name,
+      description,
+      features: states.features,
+      audience,
+      guarantee,
+      tone: states.activeTone,
+      wordCount: states.activeCount,
+    };
+
+    setIsLoading(true);
+
+    try {
+      const { data } = await instance.post<IProductDescription[]>('/descriptions/create', body);
+      setDescriptions(data);
+    } catch (err) {
+      throw err;
+    } finally {
+      setIsLoading(false);
+      onSubmit && onSubmit();
+    }
+  });
+
   const renderInput = ({ onDelete, onKeyDown, hint: inputHint, state, rules, ...input }: ProductInput) => {
     let inputComponent: React.ReactNode = null;
     switch (input.name) {
@@ -96,13 +135,14 @@ export const ProductInfoForm = ({ sx, inputs, formState, control, onSubmit, isLo
       {[inputs.tone, inputs.wordCount, inputs.features, inputs.audience].map(renderInput)}
 
       <Button
+        sx={{ mb: 2 }}
         fullWidth
         disabled={!!Object.keys(formState.errors).length || isLoading}
         variant="contained"
-        onClick={() => onSubmit()}
+        onClick={() => handleSubmit()}
         color="primary"
       >
-        Generate
+        {isLoading ? <CircularProgress color="secondary" /> : 'Generate'}
       </Button>
     </Paper>
   );
