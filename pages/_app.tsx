@@ -9,14 +9,22 @@ import { AppBar } from '@pdg/components/AppBar/AppBar';
 import { SessionProvider } from '@pdg/providers/SessionProvider';
 import { SupabaseProvider } from '@pdg/providers/SupabaseProvider';
 import { getConfig } from '@pdg/utils/getConfig';
-import { darkTheme } from '@pdg/utils/theme';
+import { darkTheme, lightTheme } from '@pdg/utils/theme';
 import { createClient } from '@supabase/supabase-js';
 import type { AppProps } from 'next/app';
+import { useEffect } from 'react';
 
 const config = getConfig();
 const supabase = createClient(config.supabase.host, (config as any).supabase.anon);
 
 export default function App({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    (window as any).theme = {
+      darkTheme,
+      lightTheme,
+    };
+  }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <SessionProvider>

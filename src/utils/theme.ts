@@ -28,10 +28,3 @@ export const lightTheme = createTheme({
     mode: 'light',
   },
 });
-
-// if (window) {
-//   (window as any).theme = {
-//     darkTheme,
-//     lightTheme,
-//   };
-// }

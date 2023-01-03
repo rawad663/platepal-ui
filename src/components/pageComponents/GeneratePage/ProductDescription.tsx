@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Paper, Typography } from '@mui/material';
 import { IProductDescription } from '@pdg/types/product-descriptions';
-import ReadingIllustration from '@root/public/assets/reading.webp';
+import ReadingIllustration from '@root/public/assets/people.webp';
 import Image from 'next/image';
 
 type Props = {
@@ -16,7 +16,7 @@ export const ProductDescription = ({ productDescriptions, isLoading }: Props) =>
 
       {productDescriptions ? (
         productDescriptions.map(({ id, content }) => (
-          <Paper key={id} elevation={1} sx={{ p: 2 }}>
+          <Paper key={id} elevation={1} sx={{ p: 2, mb: 2 }}>
             <Typography paragraph variant="body1" sx={{ whiteSpace: 'pre-line' }}>
               {content}
             </Typography>
@@ -40,10 +40,10 @@ export const ProductDescription = ({ productDescriptions, isLoading }: Props) =>
             <Image
               src={ReadingIllustration.src}
               alt="a person reading a book"
-              width={ReadingIllustration.width / 2.5}
-              height={ReadingIllustration.height / 2.5}
+              width={ReadingIllustration.width / 3.2}
+              height={ReadingIllustration.height / 3.2}
             />
-            <Typography mt={2} fontWeight="normal" color="text.secondary">
+            <Typography variant="h5" mt={2} fontWeight="normal" color="text.secondary">
               Your AI generated content will show up here
             </Typography>
           </Box>

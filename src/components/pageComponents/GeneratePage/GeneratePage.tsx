@@ -41,7 +41,7 @@ export const GeneratePage = () => {
   });
 
   return (
-    <Box flex={1} sx={{ display: 'flex', minHeight: '100vh' }}>
+    <Box flex={1} sx={{ display: 'flex', minHeight: '92vh' }}>
       <ProductInfoForm sx={styles.productInfoForm} {...{ onSubmit, inputs, control, formState, isLoading }} />
       <ProductDescription
         {...{
