@@ -1,11 +1,12 @@
+import { grey } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 const baseTheme = {
   palette: {
     mode: 'dark',
     primary: {
-      main: '#00509D',
-      dark: '#00296B',
+      main: '#5727b0',
+      dark: '#28144D',
     },
     secondary: {
       main: '#FFD500',
@@ -28,6 +29,9 @@ export const lightTheme = createTheme({
   ...baseTheme,
   palette: {
     ...baseTheme.palette,
+    lightBackground: {
+      main: grey[200],
+    },
     mode: 'light',
   },
 });

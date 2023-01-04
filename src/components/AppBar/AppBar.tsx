@@ -1,4 +1,4 @@
-import { AppBar as MuiAppBar, Container, Toolbar } from '@mui/material';
+import { AppBar as MuiAppBar, Container, Divider, Toolbar } from '@mui/material';
 import { useSession } from '@pdg/hooks/useSession';
 
 import { LeftAdornment } from './LeftAdornment';
@@ -10,13 +10,14 @@ export const AppBar = () => {
   const pages: string[] = [];
 
   return (
-    <MuiAppBar color="primary" position="static">
+    <MuiAppBar elevation={0} sx={{ backgroundColor: 'common.white' }} position="static">
       <Container maxWidth="xl">
         <Toolbar sx={{ justifyContent: 'space-between' }} disableGutters>
           <LeftAdornment pages={pages} />
           <RightAdornment user={session?.user} signIn={signInWithOAuth} signOut={signOut} />
         </Toolbar>
       </Container>
+      <Divider />
     </MuiAppBar>
   );
 };

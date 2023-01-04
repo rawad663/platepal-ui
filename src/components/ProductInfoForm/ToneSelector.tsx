@@ -16,7 +16,7 @@ export const ToneSelector = ({ activeTone, setActiveTone }: Props) => {
       </Typography>
 
       <ToggleButtonGroup
-        color="secondary"
+        color="primary"
         size="small"
         value={activeTone}
         exclusive

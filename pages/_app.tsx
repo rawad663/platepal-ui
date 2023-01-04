@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightTheme}>
       <SessionProvider>
         <SupabaseProvider initialState={supabase}>
           <AppBar />

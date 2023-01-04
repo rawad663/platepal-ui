@@ -12,8 +12,8 @@ export const styles = {
   },
   productInfoForm: {
     width: { xs: '100%', md: 450 },
-    backgroundColor: 'background.paper',
     px: { xs: 0, md: 2.5 },
+    borderRadius: '0 8px 8px 0',
     py: 2,
     boxSizing: 'border-box',
   },

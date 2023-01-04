@@ -1,4 +1,5 @@
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { ThemeProvider } from '@mui/material';
 import {
   Accordion,
   AccordionDetails,
@@ -15,6 +16,7 @@ import {
 import { useMediaQueries } from '@pdg/hooks/useMediaQueries';
 import { usePdgApi } from '@pdg/hooks/usePdgApi';
 import { IProductDescription, ProductInfoInput, Tone } from '@pdg/types/product-descriptions';
+import { darkTheme } from '@pdg/utils/theme';
 import { Controller } from 'react-hook-form';
 
 import { RangeSelector } from './RangeSelector';
@@ -94,13 +96,12 @@ export const ProductInfoForm = ({ sx, isLoading, setDescriptions, setIsLoading, 
                 rows={3}
                 required={!!rules?.required}
                 error={!!error}
-                color="secondary"
+                color="primary"
                 helperText={error?.message ?? inputHint}
                 inputProps={{
                   ...field,
                 }}
                 InputProps={{
-                  sx: { color: 'common.white' },
                   onKeyDown: onKeyDown,
                   startAdornment:
                     input.name === 'features'
@@ -126,8 +127,8 @@ export const ProductInfoForm = ({ sx, isLoading, setDescriptions, setIsLoading, 
   };
 
   return (
-    <Paper elevation={1} sx={sx}>
-      <Typography variant="h5" sx={{ my: 2 }}>
+    <Paper sx={{ ...sx, backgroundColor: 'lightBackground.main' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
         Describe your product
       </Typography>
 
@@ -135,7 +136,6 @@ export const ProductInfoForm = ({ sx, isLoading, setDescriptions, setIsLoading, 
 
       <Accordion
         disableGutters
-        color="background.paper"
         elevation={0}
         defaultExpanded={!isMobile}
         sx={{ mb: 3, backgroundColor: 'lightBackground.main' }}

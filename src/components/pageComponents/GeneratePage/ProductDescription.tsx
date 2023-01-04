@@ -13,13 +13,13 @@ export const ProductDescription = ({ productDescriptions, isLoading }: Props) =>
   const { isMobile } = useMediaQueries();
 
   return (
-    <Box sx={{ flex: 1, position: 'relative', p: { xs: 1, md: 4 } }}>
+    <Box sx={{ flex: 1, position: 'relative', p: { xs: 1, md: 4 }, backgroundColor: 'background.paper' }}>
       {/* CREATE BANNER HERE */}
       <Box></Box>
 
       {productDescriptions ? (
         productDescriptions.map(({ id, content }) => (
-          <Paper key={id} elevation={1} sx={{ p: 2, mb: 2 }}>
+          <Paper key={id} elevation={2} sx={{ p: 2, mb: 2 }}>
             <Typography paragraph variant="body1" sx={{ whiteSpace: 'pre-line' }}>
               {content}
             </Typography>
@@ -49,8 +49,8 @@ export const ProductDescription = ({ productDescriptions, isLoading }: Props) =>
             <Image
               src={ReadingIllustration.src}
               alt="a person reading a book"
-              width={isMobile ? ReadingIllustration.width / 6.2 : ReadingIllustration.width / 3.2}
-              height={isMobile ? ReadingIllustration.height / 6.2 : ReadingIllustration.height / 3.2}
+              width={isMobile ? ReadingIllustration.width / 8.2 : ReadingIllustration.width / 5}
+              height={isMobile ? ReadingIllustration.height / 8.2 : ReadingIllustration.height / 5}
             />
             <Typography variant="body1" mt={2} fontWeight="normal" color="text.secondary" textAlign="center">
               Your AI generated content will show up here

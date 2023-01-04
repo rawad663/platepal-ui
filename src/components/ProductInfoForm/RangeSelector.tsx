@@ -36,7 +36,7 @@ export const RangeSelector = ({ activeCount, setActiveCount }: Props) => {
       </Typography>
 
       <ToggleButtonGroup
-        color="secondary"
+        color="primary"
         value={activePlatform}
         exclusive
         size="small"
@@ -55,7 +55,7 @@ export const RangeSelector = ({ activeCount, setActiveCount }: Props) => {
       </ToggleButtonGroup>
 
       <Slider
-        color="secondary"
+        color="primary"
         getAriaLabel={() => 'Minimum distance'}
         value={activeCount}
         onChange={(_, newCount) => {
