@@ -1,7 +1,8 @@
-import { GeneratePage } from '@/components/pageComponents/GeneratePage';
-import { ENV } from '@/utils/getConfig';
 import Head from 'next/head';
 import Script from 'next/script';
+
+import { GeneratePage } from '@/components/pageComponents/GeneratePage';
+import { ENV } from '@/utils/getConfig';
 
 export default function Generate() {
   return (

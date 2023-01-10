@@ -1,7 +1,8 @@
-import { validationErrors } from '@/declarations/fieldValidation';
-import { ActivityLevel, ClientProfileInput, FitnessGoal } from '@/types/client-profiles';
 import { KeyboardEventHandler, useState } from 'react';
 import { useForm, ValidationRule } from 'react-hook-form';
+
+import { validationErrors } from '@/declarations/fieldValidation';
+import { ActivityLevel, ClientProfileInput, FitnessGoal } from '@/types/client-profiles';
 
 export type Input = {
   name: keyof FormFields;

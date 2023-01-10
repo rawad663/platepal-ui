@@ -1,12 +1,12 @@
-import { Box, Card, Chip, Paper, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Card, Chip, Tab, Tabs, Typography } from '@mui/material';
+import moment from 'moment';
 import { useState } from 'react';
 
 import { useMediaQueries } from '@/hooks/useMediaQueries';
 import { IMealPlan } from '@/types/meal-plans';
+import { capitalizeFirst } from '@/utils/helpers';
 
 import { NoContent } from './NoContent';
-import { capitalizeFirst } from '@/utils/helpers';
-import moment from 'moment';
 
 type Props = {
   mealPlan?: IMealPlan;
