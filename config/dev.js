@@ -1,6 +1,6 @@
 module.exports = {
   pdgServer: {
-    host: ' https://pdg-api.herokuapp.com',
+    host: 'https://platpal-api.herokuapp.com',
   },
   supabase: {
     host: 'https://hbvilwbjflfdmbvuhfmv.supabase.co',

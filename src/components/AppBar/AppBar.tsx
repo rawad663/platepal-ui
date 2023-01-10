@@ -1,5 +1,6 @@
 import { AppBar as MuiAppBar, Container, Divider, Toolbar } from '@mui/material';
-import { useSession } from '@pdg/hooks/useSession';
+
+import { useSession } from '@/hooks/useSession';
 
 import { LeftAdornment } from './LeftAdornment';
 import { RightAdornment } from './RightAdornment';
@@ -17,7 +18,7 @@ export const AppBar = () => {
           <RightAdornment user={session?.user} signIn={signInWithOAuth} signOut={signOut} />
         </Toolbar>
       </Container>
-      <Divider />
+      <Divider sx={{ backgroundColor: 'primary.light' }} />
     </MuiAppBar>
   );
 };

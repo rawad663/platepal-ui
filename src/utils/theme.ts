@@ -5,11 +5,36 @@ const baseTheme = {
   palette: {
     mode: 'dark',
     primary: {
-      main: '#5727b0',
-      dark: '#28144D',
+      light: '#e5f5ec',
+      main: '#20a361',
+      dark: '#005b31',
     },
     secondary: {
-      main: '#FFD500',
+      main: '#22acac',
+      dark: '#004a45',
+    },
+  },
+  typography: {
+    h1: {
+      fontSize: '3.55rem',
+      fontWeight: 'bold',
+    },
+    h2: {
+      fontSize: '2.75rem',
+      fontWeight: 'bold',
+    },
+    h3: {
+      fontSize: '2.1rem',
+      fontWeight: 'bold',
+    },
+    h4: {
+      fontSize: '1.75rem',
+    },
+    h5: {
+      fontSize: '1.25rem',
+    },
+    h6: {
+      fontSize: '1.15rem',
     },
   },
 };

@@ -1,4 +1,4 @@
-import { useSupabaseContext } from '@pdg/providers/SupabaseProvider';
+import { useSupabaseContext } from '@/providers/SupabaseProvider';
 
 export const useSupabase = () => {
   const [supabase] = useSupabaseContext();

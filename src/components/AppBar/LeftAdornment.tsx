@@ -9,7 +9,7 @@ export const LeftAdornment = ({ pages }: Props) => {
   return (
     <>
       <Box sx={{ my: 1 }}>
-        <Image src="/logos/CreativPen.png" alt="CreativPen logo" width={162} height={62} />
+        <Image priority src="/logos/logo-full.webp" alt="PlatePal logo" width={135} height={63} />
       </Box>
 
       <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>

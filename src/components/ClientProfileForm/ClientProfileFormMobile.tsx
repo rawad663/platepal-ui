@@ -1,7 +1,7 @@
 import { Box, SwipeableDrawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { ProductInfoForm, Props as ProductInfoFormProps } from './ProductInfoForm';
+import { ClientProfileForm, Props as ClientProfileProps } from './ClientProfileForm';
 
 const drawerBleeding = 56;
 
@@ -16,13 +16,13 @@ const Puller = styled(Box)(({ theme }) => ({
   right: 0,
 }));
 
-type Props = ProductInfoFormProps & {
+type Props = ClientProfileProps & {
   open: boolean;
   onClose: () => void;
   onOpen: () => void;
 };
 
-export const ProductInfoFormSlider = ({ open, onClose, onOpen, setIsLoading, setDescriptions, isLoading }: Props) => {
+export const ClientProfileFormMobile = ({ open, onClose, onOpen, setIsLoading, setMealPlan, isLoading }: Props) => {
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -50,7 +50,7 @@ export const ProductInfoFormSlider = ({ open, onClose, onOpen, setIsLoading, set
         <Puller />
       </Box>
 
-      <ProductInfoForm
+      <ClientProfileForm
         sx={{
           maxHeight: '90vh',
           overflow: 'scroll',
@@ -58,7 +58,7 @@ export const ProductInfoFormSlider = ({ open, onClose, onOpen, setIsLoading, set
           pt: 4,
         }}
         isLoading={isLoading}
-        setDescriptions={setDescriptions}
+        setMealPlan={setMealPlan}
         setIsLoading={setIsLoading}
         onSubmit={onClose}
       />

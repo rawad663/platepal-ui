@@ -1,16 +1,16 @@
 import { Add as AddIcon } from '@mui/icons-material';
 import { Box, Fab } from '@mui/material';
-import { ProductInfoForm } from '@pdg/components/ProductInfoForm';
-import { ProductInfoFormSlider } from '@pdg/components/ProductInfoForm/ProductInfoFormSlider';
-import { useMediaQueries } from '@pdg/hooks/useMediaQueries';
-import { IProductDescription } from '@pdg/types/product-descriptions';
 import { useState } from 'react';
 
+import { ClientProfileForm, ClientProfileFormMobile } from '@/components/ClientProfileForm';
+import { MealPlan } from '@/components/MealPlan/MealPlan';
+import { useMediaQueries } from '@/hooks/useMediaQueries';
+import { IMealPlan } from '@/types/meal-plans';
+
 import { styles } from './GeneratePage.styles';
-import { ProductDescription } from './ProductDescription';
 
 export const GeneratePage = () => {
-  const [productDescriptions, setDescriptions] = useState<IProductDescription[] | undefined>();
+  const [mealPlan, setMealPlan] = useState<IMealPlan | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -19,22 +19,17 @@ export const GeneratePage = () => {
   return (
     <Box flex={1} sx={{ display: { md: 'flex', xs: 'inline-block' }, width: '100%', minHeight: '92vh' }}>
       {isMobile ? (
-        <ProductInfoFormSlider
+        <ClientProfileFormMobile
           open={drawerOpen}
           onOpen={() => setDrawerOpen(true)}
           onClose={() => setDrawerOpen(false)}
-          {...{ isLoading, setIsLoading, setDescriptions }}
+          {...{ isLoading, setIsLoading, setMealPlan }}
         />
       ) : (
-        <ProductInfoForm sx={styles.productInfoForm} {...{ isLoading, setIsLoading, setDescriptions }} />
+        <ClientProfileForm sx={styles.productInfoForm} {...{ isLoading, setIsLoading, setMealPlan }} />
       )}
 
-      <ProductDescription
-        {...{
-          productDescriptions,
-          isLoading,
-        }}
-      />
+      <MealPlan {...{ mealPlan, isLoading }} />
 
       <Fab
         color="primary"

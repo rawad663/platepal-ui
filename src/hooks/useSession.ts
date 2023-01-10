@@ -1,4 +1,4 @@
-import { useSessionContext } from '@pdg/providers/SessionProvider';
+import { useSessionContext } from '@/providers/SessionProvider';
 import { useEffect } from 'react';
 
 import { useSupabase } from './useSupabase';
