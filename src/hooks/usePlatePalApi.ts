@@ -19,7 +19,7 @@ export const usePlatePalApi = () => {
   const instance = useMemo(
     () =>
       axios.create({
-        baseURL: `${config.pdgServer.host}/api`,
+        baseURL: `${config.platepalApi.host}/api`,
         timeout: 120000,
         headers: {
           Authorization: session?.access_token ? `Bearer ${session?.access_token}` : undefined,

@@ -33,9 +33,7 @@ export const RightAdornment = ({ user, signIn, signOut }: Props) => {
             <Avatar />
           </IconButton>
         ) : (
-          <Button variant="text" color="secondary" onClick={signIn}>
-            Sign In
-          </Button>
+          <></>
         )}
       </Tooltip>
       <Menu
