@@ -18,12 +18,11 @@ import { Controller, ControllerRenderProps } from 'react-hook-form';
 
 import { useMediaQueries } from '@/hooks/useMediaQueries';
 import { routes, usePlatePalApi } from '@/hooks/usePlatePalApi';
-import { ActivityLevel, ClientProfileInput, FitnessGoal } from '@/types/client-profiles';
+import { ClientProfileInput } from '@/types/client-profiles';
 import { IMealPlan } from '@/types/meal-plans';
 import { capitalizeFirst } from '@/utils/helpers';
 
 import { OptionsSelector } from './OptionsSelector';
-import { RangeSelector } from './RangeSelector';
 import { FormFields, Input, useClientProfileForm } from './useClientProfileForm';
 
 export type Props = {
@@ -46,10 +45,9 @@ export const ClientProfileForm = ({ sx, isLoading, setMealPlan, setIsLoading, on
       age: Number(age),
       height: Number(height),
       weight: Number(weight),
-      dailyCalorieCount: states.dailyCalorieCount,
       dietaryPreferences: states.dietaryPreferences,
       dietaryRestrictions: states.dietaryRestrictions,
-      activityLevel: activityLevel || undefined,
+      activityLevel: activityLevel || 'sedentary',
       goal,
     };
 
@@ -71,10 +69,6 @@ export const ClientProfileForm = ({ sx, isLoading, setMealPlan, setIsLoading, on
       let inputComponent: React.ReactNode = null;
 
       switch (input.name) {
-        case 'dailyCalorieCount': {
-          inputComponent = <RangeSelector label={input.label} value={state[0] as number} setValue={state[1]} />;
-          break;
-        }
         case 'activityLevel': {
           inputComponent = (
             <FormControl variant="filled" fullWidth>
@@ -85,7 +79,7 @@ export const ClientProfileForm = ({ sx, isLoading, setMealPlan, setIsLoading, on
                 id="activity-level-select"
                 value={field.value}
                 label="Age"
-                onChange={({ target }) => setValue('activityLevel', target?.value as ActivityLevel)}
+                onChange={({ target }) => setValue(input.name, target?.value as string)}
               >
                 <MenuItem value="">
                   <em>None</em>
@@ -100,14 +94,15 @@ export const ClientProfileForm = ({ sx, isLoading, setMealPlan, setIsLoading, on
           );
           break;
         }
-        case 'goal': {
+        case 'goal':
+        case 'sex': {
           inputComponent = (
             <OptionsSelector
-              sx={{ mt: 2 }}
+              sx={{ mt: 2, display: input.name === 'sex' ? 'flex' : 'inline-block' }}
               label={input.label}
               options={options ?? []}
-              activeOption={field.value as FitnessGoal}
-              setActiveOption={(o) => setValue('goal', o as FitnessGoal)}
+              activeOption={field.value as string}
+              setActiveOption={(o) => setValue(input.name, o as string)}
             />
           );
           break;
@@ -177,7 +172,7 @@ export const ClientProfileForm = ({ sx, isLoading, setMealPlan, setIsLoading, on
         </Typography>
       </Box>
 
-      {[inputs.age, inputs.weight, inputs.height, inputs.dailyCalorieCount].map(renderInput)}
+      {[inputs.age, inputs.weight, inputs.height, inputs.sex, inputs.activityLevel, inputs.goal].map(renderInput)}
 
       <Accordion disableGutters elevation={0} defaultExpanded={!isMobile} sx={{ mb: 3, backgroundColor: 'inherit' }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -186,7 +181,7 @@ export const ClientProfileForm = ({ sx, isLoading, setMealPlan, setIsLoading, on
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {[inputs.dietaryRestrictions, inputs.dietaryPreferences, inputs.activityLevel, inputs.goal].map(renderInput)}
+          {[inputs.dietaryRestrictions, inputs.dietaryPreferences].map(renderInput)}
         </AccordionDetails>
       </Accordion>
 

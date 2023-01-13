@@ -2,7 +2,7 @@ import { KeyboardEventHandler, useState } from 'react';
 import { useForm, ValidationRule } from 'react-hook-form';
 
 import { validationErrors } from '@/declarations/fieldValidation';
-import { ActivityLevel, ClientProfileInput, FitnessGoal } from '@/types/client-profiles';
+import { ClientProfileInput } from '@/types/client-profiles';
 
 export type Input = {
   name: keyof FormFields;
@@ -22,11 +22,11 @@ export type FormFields = {
   age: ClientProfileInput['age'];
   height: ClientProfileInput['height'];
   weight: ClientProfileInput['weight'];
-  dailyCalorieCount: ClientProfileInput['dailyCalorieCount'];
   dietaryRestriction: string;
   dietaryPreference: string;
-  activityLevel?: ClientProfileInput['activityLevel'] | '';
-  goal?: ClientProfileInput['goal'];
+  sex: ClientProfileInput['sex'];
+  activityLevel: ClientProfileInput['activityLevel'] | '';
+  goal: ClientProfileInput['goal'];
 };
 
 export const useClientProfileForm = () => {
@@ -34,9 +34,9 @@ export const useClientProfileForm = () => {
     age: 18,
     height: 1.73,
     weight: 75,
-    dailyCalorieCount: 2000,
     dietaryPreference: '',
     dietaryRestriction: '',
+    sex: 'male',
     activityLevel: '',
     goal: 'maintenance',
   };
@@ -45,9 +45,6 @@ export const useClientProfileForm = () => {
   const [dailyCalorieCount, setDailyCalorieCount] = useState<number>(1800);
   const [dietaryRestrictions, setDietaryRestrictions] = useState<string[]>([]);
   const [dietaryPreferences, setDietaryPreferences] = useState<string[]>([]);
-
-  // const [activityLevel, setActivityLevel] = useState<ClientProfileInput['activityLevel']>('moderate');
-  // const [goal, setGoal] = useState<ClientProfileInput['goal']>('weight loss');
 
   const handleKeyDown =
     (
@@ -66,12 +63,18 @@ export const useClientProfileForm = () => {
       }
     };
 
-  const inputs: Record<keyof ClientProfileInput, Input> = {
+  const inputs: Record<keyof Omit<ClientProfileInput, 'amr'|'bmr'>, Input> = {
     age: {
       name: 'age',
       type: 'number',
       rules: { required: { value: true, message: validationErrors.required } },
       label: 'Age',
+    },
+    sex: {
+      name: 'sex',
+      label: 'Sex',
+      type: 'options',
+      options: ['male', 'female'] as ClientProfileInput['sex'][],
     },
     height: {
       name: 'height',
@@ -84,11 +87,6 @@ export const useClientProfileForm = () => {
       type: 'number',
       rules: { required: { value: true, message: validationErrors.required } },
       label: 'Weight (kg)',
-    },
-    dailyCalorieCount: {
-      name: 'dailyCalorieCount',
-      state: [dailyCalorieCount, setDailyCalorieCount],
-      label: 'Daily calorie consumption',
     },
     dietaryRestrictions: {
       name: 'dietaryRestriction',
@@ -118,13 +116,13 @@ export const useClientProfileForm = () => {
       name: 'activityLevel',
       label: 'Activity level',
       type: 'options',
-      options: ['sedentary', 'light', 'moderate', 'very active', 'extremely active'] as ActivityLevel[],
+      options: ['sedentary', 'light', 'moderate', 'very active', 'extremely active'] as ClientProfileInput['activityLevel'][],
     },
     goal: {
       name: 'goal',
       label: 'Fitness goal',
       type: 'options',
-      options: ['maintenance', 'weight loss', 'muscle gain'] as FitnessGoal[],
+      options: ['maintenance', 'weight loss', 'muscle gain'] as ClientProfileInput['goal'][],
     },
   };
 

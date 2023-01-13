@@ -1,19 +1,26 @@
 import { IMeal } from './meals';
 
-type MealPlanModelInputs = 'targetCalories' | 'startDate' | 'endDate' | 'clientProfileId';
+type MealPlanModelInputs = 'targetCalories' | 'startDate' | 'endDate' | 'clientProfileId' | 'macroDistribution';
 
 export type MealPlanInput = {
   targetCalories: number;
+  macroDistribution: { // percentages
+    protein: number;
+    fats: number;
+    carbs: number
+  };
   startDate: Date;
   endDate: Date;
   clientProfileId: number;
+  cuisine?: 'lebanese' | 'asian';
 };
 
 export type MealPlanInputRaw = Omit<MealPlanInput, MealPlanModelInputs> & {
-  target_calories: number;
-  start_date: Date;
-  end_date: Date;
-  client_profile_id: number;
+  target_calories: MealPlanInput['targetCalories'];
+  macro_distribution: MealPlanInput['macroDistribution']
+  start_date: MealPlanInput['startDate'];
+  end_date: MealPlanInput['endDate'];
+  client_profile_id: MealPlanInput['clientProfileId'];
 };
 
 export type MealPlanMeal = {
@@ -21,6 +28,7 @@ export type MealPlanMeal = {
   calories: IMeal['calories'];
   ingredients: IMeal['ingredients'];
   mealType: IMeal['name'];
+  macros: IMeal['macros'];
 };
 
 export type IMealPlan = MealPlanInput & {
@@ -39,10 +47,7 @@ export type IMealPlan = MealPlanInput & {
 
 // "Raw" is a term used for the database version
 // where snake case is used instead of camel case
-export type IMealPlanRaw = Omit<IMealPlan, 'createdAt' | 'meals' | MealPlanModelInputs> & {
-  created_at: Date;
-  target_calories: number;
-  start_date: Date;
-  end_date: Date;
-  client_profile_id: number;
-};
+export type IMealPlanRaw = MealPlanInputRaw & {
+  id: IMealPlan['id'];
+  createdAt: IMealPlan['createdAt'];
+}

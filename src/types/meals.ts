@@ -4,17 +4,22 @@ export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'snack2' | '
 
 export type MealInput = {
   mealPlanId: number;
-  dayOfWeek: number; // between 0 and 6
+  dayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   mealType: MealType;
   name: string;
   calories?: number;
   ingredients: string[];
+  macros: { // in grams
+    protein: number;
+    fats: number;
+    carbs: number;
+  };
 };
 
 export type MealInputRaw = Omit<MealInput, MealModelInputs> & {
-  meal_plan_id: number;
-  day_of_week: Date;
-  meal_type: Date;
+  meal_plan_id: MealInput['mealPlanId'];
+  day_of_week: MealInput['dayOfWeek'];
+  meal_type: MealInput['mealType'];
 };
 
 export type IMeal = MealInput & {
@@ -24,9 +29,7 @@ export type IMeal = MealInput & {
 
 // "Raw" is a term used for the database version
 // where snake case is used instead of camel case
-export type IMealRaw = Omit<IMeal, 'createdAt' | MealModelInputs> & {
-  created_at: Date;
-  meal_plan_id: number;
-  day_of_week: Date;
-  meal_type: Date;
-};
+export type IMealRaw = MealInputRaw & {
+  id: IMeal['id'];
+  createdAt: IMeal['createdAt'];
+}
